@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "../App.css";
 
 const WordSearchApp = () => {
   const [searchWord, setSearchWord] = useState("");
@@ -24,7 +25,18 @@ const WordSearchApp = () => {
       console.log(error);
       setLoading(false);
     }
-    console.log(searchWord);
+  };
+
+  const renderWords = (wordsArr) => {
+    if (wordsArr.length > 0) {
+      return wordsArr.map((word, index) => (
+        <span key={index} className="word-item">
+          {word.word}
+        </span>
+      ));
+    } else {
+      return <span>No search results found!</span>;
+    }
   };
 
   const copyWordList = () => {
@@ -44,6 +56,7 @@ const WordSearchApp = () => {
         <input
           type="text"
           name="search_word"
+          className="search-input"
           value={searchWord}
           onChange={(e) => setSearchWord(e.target.value)}
           placeholder="Enter a word"
@@ -52,10 +65,21 @@ const WordSearchApp = () => {
         <button type="submit">Search</button>
       </form>
 
-      <button id="copy-btn">Copy Word List</button>
+      <button id="copy-btn" onClick={copyWordList}>
+        Copy Word List
+      </button>
 
-      <div className="word-app-body">
-        <div id="word-list"></div>
+      {loading && (
+        <div id="spinner" style={{ display: "flex" }}>
+          Loading...
+        </div>
+      )}
+
+      <div
+        className="word-app-body"
+        style={{ display: wordNotFound ? "none" : "block" }}
+      >
+        <div id="word-list">{renderWords(fetchedWords)}</div>
       </div>
     </div>
   );
