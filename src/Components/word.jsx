@@ -6,13 +6,34 @@ const WordSearchApp = () => {
   const [loading, setLoading] = useState(false);
   const [wordNotFound, setWordNotFound] = useState(true);
 
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    fetchSynWords(searchWord);
+  };
+
+  const fetchSynWords = async (searchWord) => {
+    const url = `https://api.datamuse.com/words?rel_syn=${searchWord}`;
+    try {
+      setLoading(true);
+      const response = await fetch(url);
+      const fetchedData = await response.json();
+      setLoading(false);
+      setFetchedWords(fetchedData);
+      setWordNotFound(fetchedData.length === 0);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+    console.log(searchWord);
+  };
+
   return (
     <div className="word-search-app">
       <form id="word-search-form">
         <input
           type="text"
           name="search_word"
-          value={searchWord}
+          //   value={searchWord}
           placeholder="Enter a word"
           required
         />
