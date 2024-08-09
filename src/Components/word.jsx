@@ -27,13 +27,25 @@ const WordSearchApp = () => {
     console.log(searchWord);
   };
 
+  const copyWordList = () => {
+    if (!wordNotFound) {
+      const words = fetchedWords.map((word) => word.word);
+      const wordToCopy = words.join(", ");
+      navigator.clipboard.writeText(wordToCopy);
+      console.log("Copied:", wordToCopy);
+    } else {
+      console.log("Nothing to copy");
+    }
+  };
+
   return (
     <div className="word-search-app">
-      <form id="word-search-form">
+      <form id="word-search-form" onSubmit={handleFormSubmit}>
         <input
           type="text"
           name="search_word"
-          //   value={searchWord}
+          value={searchWord}
+          onChange={(e) => setSearchWord(e.target.value)}
           placeholder="Enter a word"
           required
         />
