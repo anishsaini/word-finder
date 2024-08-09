@@ -1,5 +1,11 @@
+import WordSearchApp from "./Components/word";
+
 function App() {
-  return <>njnkjnkjn</>;
+  return (
+    <>
+      <WordSearchApp />
+    </>
+  );
 }
 
 export default App;
